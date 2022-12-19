@@ -1,4 +1,5 @@
 from django.db import models
+from django.db import models
 
 
 class Customer(models.Model):
@@ -16,5 +17,4 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
-
 

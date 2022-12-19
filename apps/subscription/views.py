@@ -1,12 +1,18 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from apps.subscription.forms import SubscriptionForm
 from apps.subscription.models import Subscription
 
-def subscription_dashboard(request):
-    context={}
-    context["enquires"]=Subscription.objects.all()
-    return render(request,"pages/subscription/subdashboard.html",context)
 
+def subscription_dashboard(request):
+    fil = {}
+    if request.method == "POST":
+        fil["status"] = request.POST.get("status")
+    enquires= Subscription.objects.filter(**fil)
+    context={
+        "enquires":enquires
+    }    
+
+    return render(request, "pages/subscription/subdashboard.html", context)
 
 
 def subscription_create(request):
@@ -15,11 +21,11 @@ def subscription_create(request):
         form = SubscriptionForm(request.POST)
         if form.is_valid:
             form.save()
-            return redirect("/")
+            return redirect("list-subscription")
     else:
         form = SubscriptionForm()
     context["form"] = form
-    return render(request, "pages/subscription/subdashboard.html", context)
+    return render(request, "pages/subscription/add_subscription.html", context)
 
 
 def subscription_update(request, pk):
@@ -29,7 +35,7 @@ def subscription_update(request, pk):
         if form.is_valid():
             form.save()
 
-            return redirect("dashboard")
+            return redirect("list-subscription")
     else:
         subscription = Subscription.objects.get(id=pk)
         form = SubscriptionForm(instance=subscription)
@@ -38,7 +44,7 @@ def subscription_update(request, pk):
         "subscription": subscription,
         "form": form,
     }
-    return render(request, "pages/update_customer.html", context)
+    return render(request, "pages/subscription/update.html", context)
 
 
 def subscription_delete(pk):

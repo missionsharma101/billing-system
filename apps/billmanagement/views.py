@@ -46,7 +46,6 @@ def dashboard(request):
     if request.method == "POST":
         fil["status"] = request.POST.get("status")
     enquires= Customer.objects.filter(**fil)
-    print(enquires)
     context={
         "enquires":enquires
     }    

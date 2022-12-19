@@ -4,65 +4,58 @@
 
 {% block body_content %}
 <br>
-<form action="{{action}}" method="POST">
-    {% csrf_token %}
-    <select name="status" class="form-control"  style="width: 150px;" required>
-        <option disabled selected value>select Status</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
 
+<div class="col-sm-10 offset-1">
+
+<br>
+    <h4 class="text-center alert alert-info">Show Customer Informations</h4>
+    <a href="{% url 'add-customer' %}"><button type="button" class="btn btn-primary pull-right btn-sm">create</button></a>
+    
+    <form action="{{action}}" method="POST">
+        {% csrf_token %}
+        <select name="status" class=" pull-center"  style="width: 150px; " required>
+            <option disabled selected value>select Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+    
+        </select>
+    <input class="btn btn-primary btn-sm" type="submit">
+    </form>
+    <br>
+    <table class="table">
        
-    </select>
-<input type="submit">
-</form>
+        <thead>
+          <tr>
+            <th scope="col">SN</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">phone</th>
+            <th scope="col">status</th>
+            <th scope="col">Create_at</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+    
+        <tbody>
+            {% for enquiry in enquires %}
+          <tr>
+            <td>{{forloop.counter}}</td>
 
-
-
-
-
-
-    <div class="col-sm-7 offset-1">
-        <h4 class="text-center alert alert-info">Show Customer Informations</h4>
-        <a href="{% url 'add-customer' %}"><button type="button" class="btn btn-primary pull-right btn-sm">create</button></a>
+            <td>{{enquiry.name}}</td>
+            <td>{{enquiry.email}}</td>
+            <td>{{enquiry.phone}}</td>
+            <td>{{enquiry.status}}</td>
+            <td>{{enquiry.create_at}}</td>
+            <td><a href="{% url 'update-customer' enquiry.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
+                <a href="{% url 'delete-customer' enquiry.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
+            </td>
+          </tr>
+          {% endfor %}
         
-        {% if enquires %}
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">SN</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">phone</th>
-                    <th scope="col">status</th>
-                    <th scope="col">Create_at</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for enquiry in enquires %}
-                <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{enquiry.name}}</td>
-                    <td>{{enquiry.email}}</td>
-                    <td>{{enquiry.phone}}</td>
-                    <td>{{enquiry.status}}</td>
-                    <td>{{enquiry.create_at}}</td>
-                    <td><a href="{% url 'update-customer' enquiry.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
-                        <a href="{% url 'delete-customer' enquiry.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
-                    </td>
-        
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        {% else %}
-        <h4 class="text-center alert alert-warning">No Records</h4>
-        {% endif %}
+        </tbody>
+      </table>
+ 
     </div>
-
-
 
 {% endblock %}
 
-<a href="logout">logout</a>

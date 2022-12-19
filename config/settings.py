@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.billmanagement",
-    "apps.subscription"
+    "apps.subscription",
+    "crispy_forms",
 
 ]
 
