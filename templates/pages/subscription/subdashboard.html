@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+
+{% load static %}
+
+{% block body_content %}
+<div class="row mt-4">
+
+    <div class="col-sm-7 offset-2" >
+        <h4 class="text-center alert alert-info">Show Customer Informations</h4>
+        {% if enquires %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">SN</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">From_date</th>
+                    <th scope="col">To_date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for enquiry in enquires %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{enquiry.customer.name}}</td>
+                    <td>{{enquiry.status}}</td>
+                    <td>{{enquiry.amount}}</td>
+                    <td>{{enquiry.from_date}}</td>
+                    <td>{{enquiry.to_date}}</td>
+                    <td><a href="{% url 'update-subscription' enquiry.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
+                        <a href="{% url 'delete-subscription' enquiry.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h4 class="text-center alert alert-warning">No Records</h4>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
