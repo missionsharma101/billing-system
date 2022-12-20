@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.db.models import F
 from django.core.mail import EmailMessage
 
-from apps.subscription.models import Subscription
+from .models import Subscription
 
 def send_expiration_email():
     today = timezone.now().date()
@@ -16,3 +16,5 @@ def send_expiration_email():
             email = EmailMessage(subject, body, to=[subscription.customer.email])
             email.send()    
             print("send mail successfully")
+
+        
