@@ -1,3 +1,5 @@
+from audioop import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -45,16 +47,14 @@ def dashboard(request):
     fil = {}
     if request.method == "POST":
         fil["status"] = request.POST.get("status")
-    enquires= Customer.objects.filter(**fil)
-    context={
-        "enquires":enquires
-    }    
+    enquires = Customer.objects.filter(**fil)
+    context = {"enquires": enquires}
 
     return render(request, "pages/index.html", context)
 
 
 def create_customer(request):
-    context = dict()
+
     if request.method == "POST":
         form = CustomerForm(request.POST)
         if form.is_valid:
@@ -62,7 +62,9 @@ def create_customer(request):
             return redirect("/")
     else:
         form = CustomerForm()
-    context["form"] = form
+    context = {
+        "form": form,
+    }
     return render(request, "pages/create_customer.html", context)
 
 
@@ -85,12 +87,8 @@ def customer_update(request, pk):
     return render(request, "pages/update_customer.html", context)
 
 
-def customer_delete(pk):
-    try:
-        member = Customer.objects.get(id=pk)
-        member.delete()
-        return redirect("/")
-    except Customer.DoesNotExist:
-        return redirect("/")
+def customer_delete(request, pk):
+    customer = Customer.objects.get(id=pk)
+    customer.delete()
 
-
+    return redirect("/")

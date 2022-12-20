@@ -36,8 +36,8 @@ def subscription_update(request, pk):
         subscription = Subscription.objects.get(id=pk)
         form = SubscriptionForm(request.POST, request.FILES, instance=subscription)
         if form.is_valid():
-            form.save() 
-            messages.success(request, 'update successfully')
+            form.save()
+            messages.success(request, "update successfully")
             return redirect("list-subscription")
     else:
         subscription = Subscription.objects.get(id=pk)
@@ -50,19 +50,15 @@ def subscription_update(request, pk):
     return render(request, "pages/subscription/update.html", context)
 
 
-def subscription_delete(pk):
-    try:
-        member = Subscription.objects.get(id=pk)
-        member.delete()
-        return redirect("list-subscription")
-    except Subscription.DoesNotExist:
-        return redirect("list-subscription")
+def subscription_delete(request, pk):
+    member = Subscription.objects.get(id=pk)
+    member.delete()
+    return redirect("list-subscription")
 
 
 def sendmail(request):
     email_sender = "mission.sharma101@gmail.com"
     email_password = "zapgldcllkdallwb"
-    # email_receiver=row['email']
     subs = Subscription.objects.all()
     for i in subs:
         start_date = i.from_date
@@ -87,6 +83,5 @@ def sendmail(request):
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
         smtp.login(email_sender, email_password)
         smtp.sendmail(email_sender, email_receiver, em.as_string())
-        messages.success(request, 'send mail successfully')
-        return redirect ("/")
-    # return render(request,'includes/header.html')    
+        messages.success(request, "send mail successfully")
+        return redirect("/")

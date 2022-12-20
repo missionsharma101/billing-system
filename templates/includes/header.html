@@ -9,9 +9,8 @@
             <!-- <li><a href="">Reviews</a></li>
             <li><a href="">Contact</a></li> -->
             <li><a href="/">Customer</a></li>
-            <li><a href="{% url 'send-mail' %}">Send mail</a></li>
-
             <li><a href="{%url 'list-subscription'%}">Subscription</a></li>
+            <li><a href="{% url 'send-mail' %}">Send mail</a></li>
 
 
             {% if user.is_authenticated %}
