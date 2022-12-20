@@ -3,12 +3,14 @@
 {% load static %}
 <div class="header1">
     <nav>
-        <a href="/"><img src="logo" class="logo" ></a>
+        <a href=""><img src="{%static 'image/logo .png' %}" class="logo" ></a>
         <ul class="nav-linkss">
             <li><a href="/" >Home</a></li>
             <!-- <li><a href="">Reviews</a></li>
             <li><a href="">Contact</a></li> -->
             <li><a href="/">Customer</a></li>
+            <li><a href="{% url 'send-mail' %}">Send mail</a></li>
+
             <li><a href="{%url 'list-subscription'%}">Subscription</a></li>
 
 

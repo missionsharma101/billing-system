@@ -47,7 +47,7 @@
             <td>{{enquiry.status}}</td>
             <td>{{enquiry.create_at}}</td>
             <td><a href="{% url 'update-customer' enquiry.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
-                <a href="{% url 'delete-customer' enquiry.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
+                <a href="{% url 'delete-customer' enquiry.pk %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
             </td>
           </tr>
           {% endfor %}

@@ -41,17 +41,17 @@
         </thead>
     
         <tbody>
-            {% for enquiry in enquires %}
+            {% for data in enquires %}
           <tr>
             <tr>
                 <th scope="row">{{forloop.counter}}</th>
-                <td>{{enquiry.customer.name}}</td>
-                <td>{{enquiry.status}}</td>
-                <td>{{enquiry.amount}}</td>
-                <td>{{enquiry.from_date}}</td>
-                <td>{{enquiry.to_date}}</td>
-                <td><a href="{% url 'update-subscription' enquiry.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
-                    <a href="{% url 'delete-subscription' enquiry.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
+                <td>{{data.customer.name}}</td>
+                <td>{{data.status}}</td>
+                <td>{{data.amount}}</td>
+                <td>{{data.from_date}}</td>
+                <td>{{data.to_date}}</td>
+                <td><a href="{% url 'update-subscription' data.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
+                    <a href="{% url 'delete-subscription' data.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
                 </td>
             </tr>
           </tr>

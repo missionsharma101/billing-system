@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
+from datetime import datetime
 from apps.billmanagement.forms import *
 
 
@@ -92,6 +92,5 @@ def customer_delete(pk):
         return redirect("/")
     except Customer.DoesNotExist:
         return redirect("/")
-
 
 
