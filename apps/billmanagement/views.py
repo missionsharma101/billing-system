@@ -57,7 +57,7 @@ def create_customer(request):
 
     if request.method == "POST":
         form = CustomerForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             return redirect("/")
     else:
@@ -90,5 +90,4 @@ def customer_update(request, pk):
 def customer_delete(request, pk):
     customer = Customer.objects.get(id=pk)
     customer.delete()
-
     return redirect("/")

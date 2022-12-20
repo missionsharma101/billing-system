@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "apps.billmanagement",
     "apps.subscription",
     "crispy_forms",
-
+    "phonenumber_field",
+    'django_q',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,28 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'a2602e4800ef42'
+EMAIL_HOST_PASSWORD = '6a5311ab9c6696'
+EMAIL_PORT = '2525'
+
+Q_CLUSTER = {
+    'name': 'myproject',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': '127.0.0.1',
+        'port': 6379,
+        'db': 0, 
+        }
+}
+
+DEFAULT_FROM_EMAIL="From RealHRSoft <info@aayulogic.com>"

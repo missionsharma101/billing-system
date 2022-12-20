@@ -54,34 +54,3 @@ def subscription_delete(request, pk):
     member = Subscription.objects.get(id=pk)
     member.delete()
     return redirect("list-subscription")
-
-
-def sendmail(request):
-    email_sender = "mission.sharma101@gmail.com"
-    email_password = "zapgldcllkdallwb"
-    subs = Subscription.objects.all()
-    for i in subs:
-        start_date = i.from_date
-        to_date = i.to_date
-        differ = to_date - start_date
-        print(differ)
-        print(i.status)
-        x = timedelta(days=5)
-        if differ <= x and i.status == "paid":
-            email_receiver = i.customer.email
-    subject = "Subscription time is going to timeout!!!"
-    body = """"
-            Your subscripton is running out so please buy subscription at timely.
-            Thank You!!!
-            """
-    em = EmailMessage()
-    em["from"] = email_sender
-    em["to"] = email_receiver
-    em["subject"] = subject
-    em.set_content(body)
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
-        smtp.login(email_sender, email_password)
-        smtp.sendmail(email_sender, email_receiver, em.as_string())
-        messages.success(request, "send mail successfully")
-        return redirect("/")
