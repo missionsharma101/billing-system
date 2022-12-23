@@ -14,4 +14,4 @@ class Subscription(models.Model):
     to_date = models.DateField()
 
     def __str__(self):
-        return self.customer.name
+        return self.customer.user.username
