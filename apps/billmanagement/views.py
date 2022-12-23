@@ -74,7 +74,9 @@ def create_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST)
         if form.is_valid():
-            form.save()
+            data = form.save(commit=False)
+            data.user = request.user
+            data.save()
             messages.success(request, "Customer Create successfully")
             return redirect("/")
     else:
@@ -106,7 +108,7 @@ def customer_update(request, pk):
             "form": form,
         }
     else:
-        messages.success(request,"your have permission to update")   
+        messages.success(request, "your have permission to update")
         return redirect("dashboard")
 
     return render(request, "pages/update_customer.html", context)
