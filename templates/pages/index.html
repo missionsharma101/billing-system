@@ -9,8 +9,7 @@
 
 <br>
     <h4 class="text-center alert alert-info">Show Customer Informations</h4>
-    <a href="{% url 'add-customer' %}"><button type="button" class="btn btn-primary pull-right btn-sm">create</button></a>
-    
+   
     <form action="{{action}}" method="POST">
         {% csrf_token %}
         <select name="status"   style="width: 150px; margin-left: 73%; " required>
@@ -41,7 +40,7 @@
           <tr>
             <td>{{forloop.counter}}</td>
 
-            <td>{{enquiry.user.username}}</td>
+            <td>{{enquiry.username}}</td>
             <td>{{enquiry.email}}</td>
             <td>{{enquiry.phone}}</td>
             <td>{{enquiry.status}}</td>

@@ -5,7 +5,7 @@ from apps.subscription.models import Subscription
 from django.contrib.auth.decorators import login_required
 
 
-@login_required(login_url='signin')
+@login_required(login_url="signin")
 def subscription_dashboard(request):
     if request.user.groups.filter(permissions__name="Can view group"):
         fil = {}
@@ -13,29 +13,38 @@ def subscription_dashboard(request):
             fil["status"] = request.POST.get("status")
         enquires = Subscription.objects.filter(**fil)
     else:
-        print("==========",id)
-        # return "hello"
-        enquires = Subscription.objects.filter(customer__user__id=request.user.id)
+        enquires = Subscription.objects.filter(customer__id=request.user.id)
 
     context = {"enquires": enquires}
 
     return render(request, "pages/subscription/subdashboard.html", context)
 
-@login_required(login_url='signin')
+
+@login_required(login_url="signin")
 def subscription_create(request):
     context = dict()
     if request.method == "POST":
+    
         form = SubscriptionForm(request.POST)
         if form.is_valid:
-            form.save()
-            messages.success(request, "subscription create successfully")
-            return redirect("list-subscription")
+
+            if not Subscription.objects.filter(customer__username=request.user.username):
+                data = form.save(commit=False)
+                data.customer = request.user
+                data.save()
+                messages.success(request, "subscription create successfully")
+                return redirect("list-subscription")
+            else:
+                messages.success(request,"Subscription already exists")  
+                return redirect("create-subscription")  
+
     else:
         form = SubscriptionForm()
     context["form"] = form
     return render(request, "pages/subscription/add_subscription.html", context)
 
-@login_required(login_url='signin')
+
+@login_required(login_url="signin")
 def subscription_update(request, pk):
     if request.user.groups.filter(permissions__name="Can add subscription"):
         if request.method == "POST":
@@ -54,20 +63,18 @@ def subscription_update(request, pk):
             "form": form,
         }
     else:
-        messages.success(request,"you dont have permission to update subscription")    
+        messages.success(request, "you dont have permission to update subscription")
         return redirect("list-subscription")
     return render(request, "pages/subscription/update.html", context)
 
-@login_required(login_url='signin')
+
+@login_required(login_url="signin")
 def subscription_delete(request, pk):
     if request.user.groups.filter(permissions__name="Can delete subscription"):
         member = Subscription.objects.get(id=pk)
         member.delete()
         messages.success(request, "Delete successfully")
         return redirect("list-subscription")
-    else:  
-        messages.success(request,"you dont have permission to delete subscription")
+    else:
+        messages.success(request, "you dont have permission to delete subscription")
         return redirect("list-subscription")
-
-
-

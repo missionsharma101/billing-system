@@ -5,4 +5,4 @@ from apps.subscription.models import *
 class SubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
-        exclude = ("customer",)
+        exclude = ["customer"]

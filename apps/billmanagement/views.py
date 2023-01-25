@@ -9,20 +9,13 @@ from django.contrib.auth.models import Group
 
 def get_signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomerForm(request.POST)
         if form.is_valid():
-            users = form.save()
-            group = Group.objects.get(name="customer")
-            users.groups.add(group)
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            form.save()
             messages.success(request, "Signup successfully")
-
-            return redirect("/")
+            return redirect("signin")
     else:
-        form = UserCreationForm()
+        form = CustomerForm()
     return render(request, "pages/signup.html", {"form": form})
 
 
@@ -59,7 +52,7 @@ def dashboard(request):
         enquires = Customer.objects.filter(**fil)
 
     else:
-        enquires = Customer.objects.filter(user__id=request.user.id)
+        enquires = Customer.objects.filter(id=request.user.id)
 
     context = {
         "enquires": enquires,
@@ -69,31 +62,12 @@ def dashboard(request):
 
 
 @login_required(login_url="signin")
-def create_customer(request):
-
-    if request.method == "POST":
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            data = form.save(commit=False)
-            data.user = request.user
-            data.save()
-            messages.success(request, "Customer Create successfully")
-            return redirect("/")
-    else:
-        form = CustomerForm()
-    context = {
-        "form": form,
-    }
-    return render(request, "pages/create_customer.html", context)
-
-
-@login_required(login_url="signin")
 def customer_update(request, pk):
-    if request.user.groups.filter(permissions__name="Can add customer"):
+    if request.user.groups.filter(permissions__name="Can add user"):
 
         if request.method == "POST":
             customer = Customer.objects.get(id=pk)
-            form = CustomerForm(request.POST, request.FILES, instance=customer)
+            form = CustomerUpdate(request.POST, request.FILES, instance=customer)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Customer update successfully")
@@ -101,7 +75,7 @@ def customer_update(request, pk):
                 return redirect("dashboard")
         else:
             customer = Customer.objects.get(id=pk)
-            form = CustomerForm(instance=customer)
+            form = CustomerUpdate(instance=customer)
 
         context = {
             "customer": customer,
@@ -116,7 +90,7 @@ def customer_update(request, pk):
 
 @login_required(login_url="signin")
 def customer_delete(request, pk):
-    if request.user.groups.filter(permissions__name="Can delete customer"):
+    if request.user.groups.filter(permissions__name="Can delete user"):
         customer = Customer.objects.get(id=pk)
         customer.delete()
         messages.success(request, "Delete successfully")

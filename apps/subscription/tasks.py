@@ -16,5 +16,10 @@ def send_expiration_email():
             email = EmailMessage(subject, body, to=[subscription.customer.email])
             email.send()    
             print("send mail successfully")
+#     qs=Subscription.objects.filter(to_date__range=[today,today_plus_five])
 
+#     for subscription in Subscription.objects.filter(to_date__lte=(today+timezone.timedelta(day=5)).date):
         
+
+
+                

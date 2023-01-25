@@ -45,18 +45,17 @@
           <tr>
             <tr>
                 <th scope="row">{{forloop.counter}}</th>
-                <td>{{data.customer.user.username}}</td>
+                <td>{{data.customer.username}}</td>
                 <td>{{data.status}}</td>
                 <td>{{data.amount}}</td>
                 <td>{{data.from_date}}</td>
                 <td>{{data.to_date}}</td>
                 <td>
-                  {% if perms.subscription.add_subscription %}
+                 
                   <a href="{% url 'update-subscription' data.id %}"><i class="fa-solid fa-pen-to-square"></i></a> &nbsp;
-                {% endif %}
-                {% if perms.subscription.delete_subscription %}
+               
                     <a href="{% url 'delete-subscription' data.id %}"><i class="fa-solid fa-trash " style="color: red;"></i></a>
-                    {% endif %}
+                
                 </td>
             </tr>
           </tr>

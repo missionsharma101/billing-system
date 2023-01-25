@@ -7,11 +7,11 @@ class Subscription(models.Model):
     UNPAID = 'unpaid'
     CHOICE_SUB_STATUS = [(PAID, PAID), (UNPAID, UNPAID)]
 
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
     status = models.CharField(max_length=15, choices=CHOICE_SUB_STATUS)
     amount = models.FloatField(null=True)
     from_date = models.DateField(auto_now_add=True)
     to_date = models.DateField()
 
     def __str__(self):
-        return self.customer.user.username
+        return self.customer.username
